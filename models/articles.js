@@ -57,6 +57,13 @@ class Articles {
         return true;
     }
 
+    
+    // return all articles from database order by most recent items
+    async find() {
+        let articles = await this.client.query("SELECT * FROM articles ORDER BY articleId DESC");
+        return articles.rows;
+    }
+
 
 }
 

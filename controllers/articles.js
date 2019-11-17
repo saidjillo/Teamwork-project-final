@@ -80,3 +80,25 @@ exports.deleteArticle = (req, res, next)=>{
 };
 
 
+exports.getAllArticles = (req,res,next)=>{
+
+    article.find()
+
+        .then( (items)=>{
+            res.status(200).json({
+                status: "success",
+                data: items        
+            });
+        })
+
+        .catch( (error)=>{
+            res.status(404).json({
+                status: "error",
+                data: {
+                    message: "Error loading articles from the database.",
+                }
+            })
+        });
+
+};
+
