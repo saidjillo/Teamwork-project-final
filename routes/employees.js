@@ -3,11 +3,11 @@ const router = express.Router();
 
 
 
-employeesCtrl = require('../controllers/employees');
+const employeesCtrl = require('../controllers/employees');
 const checkUser = require("../middleware/userExist");
 const auth = require("../middleware/auth");
 
-router.post('/create-user', auth, checkUser, employeesCtrl.signup);
+router.post('/create-user', auth.verifyToken, auth.isAdmin, checkUser, employeesCtrl.signup);
 router.post('/signin', employeesCtrl.login);
 
 
