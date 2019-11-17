@@ -93,6 +93,11 @@ class Employees {
         return user.rows[0];
     }
 
+    async findOneById(id){
+        let user = await this.client.query("SELECT * FROM employees WHERE userid= $1", [id]);
+        return user.rows[0];
+    }
+
 
 
 }

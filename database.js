@@ -6,5 +6,11 @@ var client = new Client(conString);
 
 client.connect();
 
+client.query("SELECT * FROM employees", (err, res)=>{
+    if(res){
+        console.table(res.rows);
+    }
+})
+
 
 module.exports = client;

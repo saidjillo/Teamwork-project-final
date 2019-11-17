@@ -1,21 +1,39 @@
 const jwt = require('jsonwebtoken');
+const client = require("../database"); 
 
-module.exports = (req, res, next)=>{
+const Employee = require("../models/employees");
+
+
+const user  = new Employee();
+
+exports.verifyToken = (req, res, next)=>{
 
     try {
-        const token  = req.headers.authorization.split(' ')[1];
+        const token  = req.headers.token.split(' ')[1];
         const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
         const userId = decodedToken.userId;
 
-        if(req.body.userId && req.body.userId !== userId) {
-            return res.status(401).json({
-                status: "error",
-                error: "User not found",           
-            });
-        }else{
-            next();
-        }
+        if(userId) {
 
+            user.findOneById(userId)
+                .then( (item)=>{
+                    next();
+                })
+
+                .catch( (error)=>{
+                    res.status(401).json({
+                        status: "error",
+                        error:"User does not exist.",  
+                    });
+                })
+
+        }else{
+            res.status(401).json({
+                status: "error",
+                error:"Please provide a valid token.",  
+            });
+        }
+     
     } catch  {
         res.status(401).json({
             status: "error",
@@ -24,3 +42,47 @@ module.exports = (req, res, next)=>{
     }
 
 }
+
+exports.isAdmin = (req, res, next) => {
+    try {
+
+        const token  = req.headers.token.split(' ')[1];
+        const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+        const userId = decodedToken.userId;
+
+        if(userId) {
+
+            user.findOneById(userId)
+                .then( (item)=>{
+                    console.log(item.jobrole);
+                    if(item.jobrole == 'admin'){
+                        next();
+                    }else {
+                        res.status(401).json({
+                            status: "error",
+                            error:"Unauthorized Request",  
+                        });
+                    }
+                })
+
+                .catch( (error)=>{
+                    res.status(401).json({
+                        status: "error",
+                        error:"User does not exist.",  
+                    });
+                })
+
+        }else{
+            res.status(401).json({
+                status: "error",
+                error:"Please provide a valid token.",  
+            });
+        }
+
+    } catch (error) {
+        res.status(401).json({
+            status: "error",
+            error:"Invalid Request",  
+        });
+    }
+};
