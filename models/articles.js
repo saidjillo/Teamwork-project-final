@@ -66,19 +66,7 @@ class Articles {
                 }else {
                     return false
                 }
-
-
-                // this.client.query("SELECT * FROM articles WHERE articleId= $1", [id])
-
-                //     .then( (item)=>{
-                //         console.table(item.rows[0])
-                //         return item.rows[0];
-                //     })
-
-                //     .catch( (error)=>{
-                //         return new Error("Article created but could not be fetched.")
-                //     })
-                
+              
             })
 
             .catch( (error)=>{
@@ -97,6 +85,13 @@ class Articles {
     // return all articles from database order by most recent items
     async find() {
         let articles = await this.client.query("SELECT * FROM articles ORDER BY articleId DESC");
+        return articles.rows;
+    }
+
+    // return all articles from database belonging to specific employee order by most recent items
+    async findEmployeeSpecific(userId) {
+        console.log(userId)
+        let articles = await this.client.query("SELECT * FROM articles WHERE createdBy = $1 ORDER BY articleId DESC", [userId]);
         return articles.rows;
     }
 

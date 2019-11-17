@@ -190,3 +190,27 @@ exports.getAllArticles = (req,res,next)=>{
 
 };
 
+
+
+exports.getAllArticlesEmployeeSpecific = (req,res,next)=>{
+
+    article.findEmployeeSpecific(req.query.userId)
+
+        .then( (items)=>{
+            res.status(200).json({
+                status: "success",
+                data: items        
+            });
+        })
+
+        .catch( (error)=>{
+            res.status(404).json({
+                status: "error",
+                data: {
+                    message: "Error loading articles from the database.",
+                }
+            })
+        });
+
+};
+
