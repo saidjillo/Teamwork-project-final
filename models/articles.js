@@ -51,6 +51,42 @@ class Articles {
         return article.rows[0];
     }
 
+
+    // Update and return one article from the database
+    async updateOne(id, article){
+       
+        this.client.query(
+            "UPDATE articles SET title=($1), article=($2) WHERE articleId=($3)",
+            [article.title, article.article, id])
+
+            .then( (result)=> {
+
+                if(result.rowCount > 0) {
+                    return true;
+                }else {
+                    return false
+                }
+
+
+                // this.client.query("SELECT * FROM articles WHERE articleId= $1", [id])
+
+                //     .then( (item)=>{
+                //         console.table(item.rows[0])
+                //         return item.rows[0];
+                //     })
+
+                //     .catch( (error)=>{
+                //         return new Error("Article created but could not be fetched.")
+                //     })
+                
+            })
+
+            .catch( (error)=>{
+                return new Error("Article could not be updated.")
+            });
+
+    }
+
     // delete one article from the database with the specified id
     async deleteOne(id) {
         this.client.query("DELETE FROM articles WHERE articleId = $1", [id]);
