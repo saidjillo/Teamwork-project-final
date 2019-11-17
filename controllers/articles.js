@@ -93,6 +93,59 @@ exports.getOneArticle = (req, res, next)=>{
 };
 
 
+exports.modifyArticle = (req, res, next)=>{
+
+    let request_article = {
+        title: req.body.title,
+        article: req.body.article,
+        userId: req.body.createdby
+    }
+  
+    try {
+        client.query(
+            "UPDATE articles SET title=($1), article=($2) WHERE articleId=($3) RETURNING articleId",
+            [request_article.title, request_article.article, req.query.articleId])
+    
+            .then( (modItem)=>{
+            
+                console.table(modItem);
+                res.status(201).json({
+                    status: "success",
+                    data: {
+                        id: req.query.articleId,
+                        title: request_article.title,
+                        article: request_article.article,
+                        comments: [
+                            {
+                                commentId: "",
+                                comment: "",
+                                authorId: ""
+                            },
+                        ] ,
+                        error: false
+                    }
+                    });
+                            
+            })
+    
+            .catch( (error)=>{
+                res.status(500).json({
+                    status: error,
+                    error: "Error fetching the updated article."               
+                });
+            });
+
+    } catch (error) {
+        res.status(401).json({
+            status: error,
+            error: "Article could not be updated"               
+        });
+    }
+       
+
+};
+
+
 exports.deleteArticle = (req, res, next)=>{
     console.log(req.query.articleId);
     article.deleteOne(req.query.articleId)
