@@ -51,6 +51,12 @@ class Articles {
         return article.rows[0];
     }
 
+    // delete one article from the database with the specified id
+    async deleteOne(id) {
+        this.client.query("DELETE FROM articles WHERE articleId = $1", [id]);
+        return true;
+    }
+
 
 }
 

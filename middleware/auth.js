@@ -54,7 +54,7 @@ exports.isAdmin = (req, res, next) => {
 
             user.findOneById(userId)
                 .then( (item)=>{
-                    console.log(item.jobrole);
+                    
                     if(item.jobrole == 'admin'){
                         next();
                     }else {

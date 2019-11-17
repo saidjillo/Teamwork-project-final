@@ -56,3 +56,27 @@ exports.createArticle = (req,res,next) =>{
     
      
 };
+
+
+exports.deleteArticle = (req, res, next)=>{
+    console.log(req.query.articleId);
+    article.deleteOne(req.query.articleId)
+        
+        .then( ()=>{
+            res.status(201).json({
+                status: "success",
+                data: {
+                    message: "Article successfully deleted",
+                }
+            });
+        })
+
+        .catch( (error)=>{
+            res.status(404).json({
+                status: "error",
+                error: "Article could not be deleted.", 
+            })
+        });
+};
+
+

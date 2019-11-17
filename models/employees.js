@@ -22,7 +22,7 @@ class Employees {
             "SELECT  * FROM employees WHERE jobrole='admin'", (err, result)=>{
 
                 if( result.rowCount > 0) {
-                    console.log("Admin already exists");
+                    
 
                 } else {
                     // create table admin
@@ -43,7 +43,7 @@ class Employees {
     
                          })
     
-                        console.log("Please Create table admin")
+                      
                     })
             
                 }
