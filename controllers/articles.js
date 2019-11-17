@@ -57,6 +57,41 @@ exports.createArticle = (req,res,next) =>{
      
 };
 
+exports.getOneArticle = (req, res, next)=>{
+
+    article.findOne(req.query.articleId)
+       
+      .then( (item)=>{
+          res.status(200).json({
+            status: "success",
+            data: {
+                id: item.articleid,
+                createdOn: item.createdon,
+                title: item.title,
+                article: item.article,
+                comments: [
+                    {
+                        commentId: "",
+                        comment: "",
+                        authorId: ""
+                    },
+                ] ,
+               
+            }
+          });
+       })
+       
+       .catch( (error)=>{
+          res.status(404).json({
+            status: "error",
+            data: {
+                message: "Article could not be found",
+            }
+          });
+       });
+
+};
+
 
 exports.deleteArticle = (req, res, next)=>{
     console.log(req.query.articleId);
