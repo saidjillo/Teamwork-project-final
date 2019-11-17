@@ -6,7 +6,7 @@ var client = new Client(conString);
 
 client.connect();
 
-client.query("SELECT * FROM employees", (err, res)=>{
+client.query("SELECT * FROM articles", (err, res)=>{
     if(res){
         console.table(res.rows);
     }
