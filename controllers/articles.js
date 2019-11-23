@@ -1,9 +1,7 @@
 const Article = require('../models/articles');
-const Comment = require('../models/commentsArticles');
 const client = require("../database"); 
 
 const article = new Article();
-const comment = new Comment();
 
 
 exports.createArticle = (req,res,next) =>{
@@ -60,29 +58,27 @@ exports.createArticle = (req,res,next) =>{
 };
 
 exports.getOneArticle = (req, res, next)=>{
-    
+
     article.findOne(req.query.articleId)
        
       .then( (item)=>{
-
-         
-            client.query("SELECT * FROM comments WHERE articleId = $1", [item.articleid])
-            .then( (full_item)=>{
-
-                console.table(full_item.rows);
-                res.status(200).json({
-                    status: "success",
-                    data: {
-                        id: item.articleid,
-                        createdOn: item.createdon,
-                        title: item.title,
-                        article: item.article,
-                        comments: full_item.rows              
-                    }
-                });
-
-            })
-
+          res.status(200).json({
+            status: "success",
+            data: {
+                id: item.articleid,
+                createdOn: item.createdon,
+                title: item.title,
+                article: item.article,
+                comments: [
+                    {
+                        commentId: "",
+                        comment: "",
+                        authorId: ""
+                    },
+                ] ,
+               
+            }
+          });
        })
        
        .catch( (error)=>{
@@ -112,7 +108,7 @@ exports.modifyArticle = (req, res, next)=>{
     
             .then( (modItem)=>{
             
-               
+                console.table(modItem);
                 res.status(201).json({
                     status: "success",
                     data: {
@@ -121,7 +117,7 @@ exports.modifyArticle = (req, res, next)=>{
                         article: request_article.article,
                         comments: [
                             {
-                                commentId:"",
+                                commentId: "",
                                 comment: "",
                                 authorId: ""
                             },
@@ -151,7 +147,7 @@ exports.modifyArticle = (req, res, next)=>{
 
 
 exports.deleteArticle = (req, res, next)=>{
-   
+    console.log(req.query.articleId);
     article.deleteOne(req.query.articleId)
         
         .then( ()=>{
@@ -186,7 +182,9 @@ exports.getAllArticles = (req,res,next)=>{
         .catch( (error)=>{
             res.status(404).json({
                 status: "error",
-                error:  "Error loading articles from the database."
+                data: {
+                    message: "Error loading articles from the database.",
+                }
             })
         });
 
@@ -216,73 +214,4 @@ exports.getAllArticlesEmployeeSpecific = (req,res,next)=>{
 
 };
 
-
-exports.createComment = (req, res, next)=> {
-    
-    const comment_obj = {
-        authorId: req.body.authorId,
-        articleId: req.query.articleId,
-        comment: req.body.comment
-    };
-
-    let date = new Date();
-    let params = [
-        comment_obj.comment,
-        comment_obj.authorId,
-        comment_obj.articleId,        
-        date.toDateString()
-    ];
-
-    try {
-        client.query( 
-            'INSERT INTO comments (comment, authorId, articleId, createdOn) VALUES ($1, $2, $3, $4) RETURNING commentId', 
-             params)
-
-            .then( (resp)=>{
-                let id =  resp.rows[0].commentid;
-                client.query("SELECT * FROM comments WHERE commentId = $1", [id])
-                    .then( (item)=>{
-                        res.status(201).json({
-                            status: "success",
-                            data: item.rows[0]
-                        });  
-                    })   
-            })
-
-            .catch( (error)=>{
-                res.status(500).json({
-                    status: "error",
-                    error:  "Posted successfully. Please refresh page."
-                })
-            });
-
-
-    } catch (error) {
-        res.status(404).json({
-            status: "error",
-            error: "Error posting your comment."
-        })
-    }
-  
-};
-
-exports.deleteComment = (req, res, next) =>{
-
-    client.query("DELETE FROM comments WHERE commentId = $1", [req.body.commentId])
-        .then( (resp)=>{
-            res.status(201).json({
-                status: "success",
-                data: {
-                    message: "Comment deleted successfully."
-                }
-            })
-        })
-
-        .catch( (error)=> {
-            res.status(404).json({
-                status: "error",
-                error: "Error deleting your comment."
-            })
-        });
-        
-};
+kskjskj

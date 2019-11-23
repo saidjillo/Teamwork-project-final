@@ -24,7 +24,6 @@ app.use('/api/v1/auth', employeesRoutes);
 app.use('/api/v1/articles', articlesRoutes);
 
 
-
 module.exports = app;
 
 
