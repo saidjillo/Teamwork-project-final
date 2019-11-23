@@ -54,7 +54,6 @@ class Comment {
     // delete one comment from the database with the specified id
     async deleteOne(id) {
         this.client.query("DELETE FROM comments WHERE commentId = $1", [id])
-            .the
         return true;
     }
 
