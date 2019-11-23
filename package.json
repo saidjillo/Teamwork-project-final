@@ -18,7 +18,9 @@
     "pg": "^7.12.1",
     "requests": "^0.3.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "cloudinary": "^1.17.0"
+  },
   "scripts": {
     "test-init": "node node_modules/jasmine/bin/jasmine.js init",
     "test": "node node_modules/jasmine/bin/jasmine.js"

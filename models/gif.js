@@ -10,7 +10,7 @@ class Gif {
     // create table gifs if it does not exist
     createTable() {
         this.client.query(
-            "CREATE TABLE IF NOT EXISTS gifs(gifId SERIAL, gifUrl varchar(255) NOT NULL,gifTitle varchar(3000) NOT NULL,createdOn varchar(255) NOT NULL ,createdBy int NOT NULL,PRIMARY KEY (gifId))");
+            "CREATE TABLE IF NOT EXISTS gifs(gifId SERIAL, imageUrl varchar(255) NOT NULL,gifTitle varchar(3000) NOT NULL,createdOn varchar(255) NOT NULL ,createdBy int NOT NULL,PRIMARY KEY (gifId))");
     }
 
     // drop table gifs ---- ONLY FOR DEVELEOPMENT PURPOSES AND SHOULD NOT BE USED IN PRODUCTION
@@ -29,7 +29,7 @@ class Gif {
             gif_obj.userId];
 
         this.client.query( 
-            'INSERT into gifs (gifUrl, gifTitle, createdOn, createdBy) VALUES($1, $2, $3, $4) RETURNING gifId', 
+            'INSERT into gifs (imageUrl, gifTitle, createdOn, createdBy) VALUES($1, $2, $3, $4) RETURNING gifId', 
              params)
 
         .then( (res)=>{
@@ -54,7 +54,7 @@ class Gif {
     async updateOne(id, gif){
        
         this.client.query(
-            "UPDATE gifs SET gifUrl=($1), gifTitle=($2) WHERE gifId=($3)",
+            "UPDATE gifs SET imageUrl=($1), gifTitle=($2) WHERE gifId=($3)",
             [gif.title, article.gifUrl, id])
 
             .then( (result)=> {
@@ -96,4 +96,4 @@ class Gif {
 }
 
 
-module.exports = Articles;
+module.exports = Gif;
