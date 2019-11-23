@@ -6,7 +6,7 @@ var client = new Client(conString);
 
 client.connect();
 
-client.query("SELECT * FROM articles", (err, res)=>{
+client.query("SELECT * FROM comments", (err, res)=>{
     if(res){
         console.table(res.rows);
     }

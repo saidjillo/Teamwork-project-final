@@ -44,9 +44,11 @@ class Articles {
         })
                                           
     }
+    
 
     // return one article from the database
     async findOne(id){
+        console.log(id);
         let article = await this.client.query("SELECT * FROM articles WHERE articleId= $1", [id]);
         return article.rows[0];
     }
