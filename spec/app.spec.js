@@ -7,10 +7,10 @@ describe("Teamwork API", ()=>{
         const data = {
             firstName: "Saidjillo",
             lastName: "DevC",
-            email: "AndelaDevC@gmail.com",
+            email: "testing1@gmail.com",
             password: "AndelaDevC2019",
             gender: "male",
-            jobRole: "admin",
+            jobRole: "regular",
             department: "Sales",
             address: "2255555555",
         };
@@ -24,7 +24,7 @@ describe("Teamwork API", ()=>{
             json:data 
         
         },function(error, response, body){ 
-                    expect(response.statusCode ).toBe(201);  
+                    expect(response.statusCode ).toBe(401);  
                     done();       
             }); 
         
