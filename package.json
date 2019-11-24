@@ -19,7 +19,8 @@
     "requests": "^0.3.0"
   },
   "devDependencies": {
-    "cloudinary": "^1.17.0"
+    "cloudinary": "^1.17.0",
+    "request": "^2.88.0"
   },
   "scripts": {
     "test-init": "node node_modules/jasmine/bin/jasmine.js init",
