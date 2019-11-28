@@ -6,11 +6,5 @@ var client = new Client(conString);
 
 client.connect();
 
-client.query("SELECT * FROM gifs", (err, res)=>{
-    if(res){
-        console.table(res.rows);
-    }
-})
-
 
 module.exports = client;
