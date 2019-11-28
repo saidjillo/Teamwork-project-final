@@ -7,3 +7,7 @@ services:
 before_script: node server
 script: npm test
 after_success: npm run coverage
+os:
+  - linux
+  - osx
+  - windows
