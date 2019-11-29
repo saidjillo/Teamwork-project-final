@@ -4,6 +4,8 @@ node_js:
 install: npm install
 services:
   - postgresql
-before_script: node server
-script: npm test
+
+script: 
+  - node server.js
+  - npm test
 after_success: npm run coverage
