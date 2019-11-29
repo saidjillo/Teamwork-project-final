@@ -6,10 +6,11 @@ node_js:
 services:
   - postgresql
 
-before_script: npm install
+before_script: 
+  - npm install &
+  - npm start 
 
-script: 
-  - npm start &
+script:
   - npm test
 
 after_success: npm run coverage
