@@ -9,7 +9,7 @@ services:
 before_script: npm install
 
 script: 
-  - node start
+  - npm start &
   - npm test
 
 after_success: npm run coverage
